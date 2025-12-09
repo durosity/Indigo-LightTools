@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<Devices>
+    <Device type="dimmer" id="myDimmerType">
+        <Name>Variable Linked Dimmer</Name>
+        <ConfigUI>
+            <Field id="variablelabel" type="label">
+                <Label>Set the linked variable here.  </Label>            	
+            </Field>
+            <Field id="variableId" type="menu">
+                <Label>Linked Variable</Label>
+                <List class="self" method="getVariableList"/>
+            </Field>
+            <Field id="vslabel" type="label">
+                <Label>Variable Scales lets you set a range for the dimmer to equate to.  For example if you set the range from 0 to 1, then setting 50% on this device would set the linked variable to 0.5.   This was primarily designed for use with the KioskHome App for setting the brightness variable level.</Label>            	
+            </Field>
+            <Field id="scaleMin" type="textfield" defaultValue="0">
+                <Label>Variable Scale Minimum:</Label>
+            </Field>
+            <Field id="scaleMax" type="textfield" defaultValue="100">
+                <Label>Variable Scale Maximum:</Label>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+        <SupportsBrightness>true</SupportsBrightness>
+    </Device>
+    
+    <Device type="relay" id="SceneDevice">
+        <Name>Scene Controller</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>Select devices to monitor and control as part of this scene. The scene will automatically detect when all devices match the saved state.</Label>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="sceneDevices" type="list" rows="15">
+                <Label>Scene Devices:</Label>
+                <List class="self" method="getSceneDeviceList"/>
+            </Field>
+            
+            <Field id="sceneVariables" type="list" rows="8">
+                <Label>Scene Variables:</Label>
+                <List class="self" method="getVariableList"/>
+            </Field>
+            
+            <Field id="separator2" type="separator"/>
+            
+            <Field id="saveStateButton" type="button">
+                <Label/>
+                <Title>Save Current State of Selected Devices</Title>
+                <CallbackMethod>saveSceneState</CallbackMethod>
+            </Field>
+            
+            <Field id="compareStateButton" type="button">
+                <Label/>
+                <Title>Compare Current State of Selected Devices</Title>
+                <CallbackMethod>compareSceneState</CallbackMethod>
+            </Field>
+            
+            <Field id="separator3" type="separator"/>
+            
+            <Field id="actionGroupLabel" type="label">
+                <Label>Optional: Select action groups to run when scene is manually turned ON or OFF</Label>
+            </Field>
+            
+            <Field id="onActionGroup" type="menu">
+                <Label>ON Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="offActionGroup" type="menu">
+                <Label>OFF Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="savedStates" type="textfield" hidden="true">
+                <Label>Saved States (hidden)</Label>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+    </Device>
+    
+    <Device type="dimmer" id="Relay2Dimmer">
+        <Name>Relay to Dimmer Converter</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>This device converts two relay states into a 4-level dimmer control (0%, 33%, 66%, 100%).</Label>
+            </Field>
+            
+            <Field id="relay1Device" type="menu">
+                <Label>Relay 1 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+            
+            <Field id="relay2Device" type="menu">
+                <Label>Relay 2 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+        <SupportsBrightness>true</SupportsBrightness>
+    </Device>
+    
+    <Device type="speedcontrol" id="Relay2Fan">
+        <Name>Relay to Fan Converter</Name>
+        <ConfigUI>
+            <Field id="SupportsOnState" type="checkbox" defaultValue="true" hidden="true" />
+            <Field id="SupportsStatusRequest" type="checkbox" defaultValue="false" hidden="true" />
+            
+            <Field id="instructionsLabel" type="label">
+                <Label>This device converts two relay states into a 4-speed fan control (Off, Low, Medium, High).</Label>
+            </Field>
+            
+            <Field id="relay1Device" type="menu">
+                <Label>Relay 1 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+            
+            <Field id="relay2Device" type="menu">
+                <Label>Relay 2 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+        </ConfigUI>
+    </Device>
+</Devices>

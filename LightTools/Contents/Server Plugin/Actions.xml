@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<Actions>
+    <!-- Flash Lamps Action -->
+    <Action id="flashLamps" deviceFilter="">
+        <Name>Flash Lamps</Name>
+        <CallbackMethod>flashLamps</CallbackMethod>
+        <ConfigUI>
+            <Field id="deviceList" type="list" rows="10">
+                <Label>Devices to Flash:</Label>
+                <List class="self" method="getDeviceList"/>
+            </Field>
+            
+            <Field id="flashCount" type="textfield" defaultValue="3">
+                <Label>Number of Flashes:</Label>
+                <Description>How many times to flash (total visible flashes)</Description>
+            </Field>
+            
+            <Field id="flashDuration" type="textfield" defaultValue="0.5">
+                <Label>Flash Duration (seconds):</Label>
+                <Description>How long each flash lasts</Description>
+            </Field>
+            
+            <Field id="gapDuration" type="textfield" defaultValue="0.5">
+                <Label>Gap Between Flashes (seconds):</Label>
+                <Description>Time between each flash</Description>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="dimmerSettings" type="label">
+                <Label>Dimmer Settings (optional - leave blank for defaults)</Label>
+            </Field>
+            
+            <Field id="flashToBrightness" type="textfield" defaultValue="">
+                <Label>Flash To Brightness (%):</Label>
+                <Description>For dimmers: brightness when flashing ON (default: 100)</Description>
+            </Field>
+            
+            <Field id="flashToMinimum" type="textfield" defaultValue="">
+                <Label>Flash To Minimum (%):</Label>
+                <Description>For dimmers: brightness when flashing OFF (default: 0)</Description>
+            </Field>
+        </ConfigUI>
+    </Action>
+    
+    <!-- Cancel All Flashes Action -->
+    <Action id="cancelAllFlashes" deviceFilter="">
+        <Name>Cancel All Flash Sequences</Name>
+        <CallbackMethod>cancelAllFlashes</CallbackMethod>
+        <ConfigUI>
+            <Field id="cancelInfo" type="label">
+                <Label>This will immediately cancel all running flash sequences and restore devices to their original states.</Label>
+            </Field>
+        </ConfigUI>
+    </Action>
+</Actions>
