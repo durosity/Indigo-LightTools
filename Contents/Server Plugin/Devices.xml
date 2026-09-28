@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<Devices>
+    <Device type="dimmer" id="myDimmerType">
+        <Name>Variable Linked Dimmer</Name>
+        <ConfigUI>
+            <Field id="variablelabel" type="label">
+                <Label>Set the linked variable here.  </Label>            	
+            </Field>
+            <Field id="variableId" type="menu">
+                <Label>Linked Variable</Label>
+                <List class="self" method="getVariableList"/>
+            </Field>
+            <Field id="vslabel" type="label">
+                <Label>Variable Scales lets you set a range for the dimmer to equate to.  For example if you set the range from 0 to 1, then setting 50% on this device would set the linked variable to 0.5.   This was primarily designed for use with the KioskHome App for setting the brightness variable level.</Label>            	
+            </Field>
+            <Field id="scaleMin" type="textfield" defaultValue="0">
+                <Label>Variable Scale Minimum:</Label>
+            </Field>
+            <Field id="scaleMax" type="textfield" defaultValue="100">
+                <Label>Variable Scale Maximum:</Label>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+        <SupportsBrightness>true</SupportsBrightness>
+    </Device>
+    
+    <Device type="relay" id="SceneDevice">
+        <Name>Scene Controller</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>Select devices to monitor and control as part of this scene. The scene will automatically detect when all devices match the saved state.</Label>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="sceneDevices" type="list" rows="15">
+                <Label>Scene Devices:</Label>
+                <List class="self" method="getSceneDeviceList"/>
+            </Field>
+            
+            <Field id="sceneVariables" type="list" rows="8">
+                <Label>Scene Variables:</Label>
+                <List class="self" method="getVariableList"/>
+            </Field>
+            
+            <Field id="separator2" type="separator"/>
+            
+            <Field id="saveStateButton" type="button">
+                <Label/>
+                <Title>Save Current State of Selected Devices</Title>
+                <CallbackMethod>saveSceneState</CallbackMethod>
+            </Field>
+            
+            <Field id="compareStateButton" type="button">
+                <Label/>
+                <Title>Compare Current State of Selected Devices</Title>
+                <CallbackMethod>compareSceneState</CallbackMethod>
+            </Field>
+            
+            <Field id="separator3" type="separator"/>
+            
+            <Field id="actionGroupLabel" type="label">
+                <Label>Optional: Select action groups to run when scene is manually turned ON or OFF</Label>
+            </Field>
+            
+            <Field id="ignoreHvacMode" type="checkbox" defaultValue="false">
+                <Label>Ignore HVAC Mode when comparing thermostats</Label>
+            </Field>
+            
+            <Field id="restorePreviousState" type="checkbox" defaultValue="false">
+                <Label>Restore previous state when manually turned OFF</Label>
+            </Field>
+            
+            <Field id="onActionGroup" type="menu">
+                <Label>ON Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="offActionGroup" type="menu">
+                <Label>OFF Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="savedStates" type="textfield" hidden="true">
+                <Label>Saved States (hidden)</Label>
+            </Field>
+            
+            <Field id="previousStates" type="textfield" hidden="true">
+                <Label>Previous States (hidden)</Label>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+    </Device>
+    
+    <Device type="relay" id="SceneMonitor">
+        <Name>Scene Monitor</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>Select scenes to monitor. This device will turn ON when NONE of the selected scenes are active, and OFF when at least one scene is active.</Label>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="monitoredScenes" type="list" rows="10">
+                <Label>Monitored Scenes:</Label>
+                <List class="self" method="getSceneList"/>
+            </Field>
+            
+            <Field id="separator2" type="separator"/>
+            
+            <Field id="bounceDelay" type="textfield" defaultValue="5">
+                <Label>Bounce Delay (seconds):</Label>
+            </Field>
+            
+            <Field id="bounceLabel" type="label">
+                <Label>Delay before reacting to all scenes being OFF (to handle scene transitions). Recommended: 5 seconds.</Label>
+            </Field>
+            
+            <Field id="separator3" type="separator"/>
+            
+            <Field id="actionGroupLabel" type="label">
+                <Label>Optional: Select action groups to run when monitor turns ON or OFF</Label>
+            </Field>
+            
+            <Field id="onActionGroup" type="menu">
+                <Label>ON Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="offActionGroup" type="menu">
+                <Label>OFF Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+    </Device>
+    
+    <Device type="dimmer" id="Relay2Dimmer">
+        <Name>Relay to Dimmer Converter</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>This device converts two relay states into a 4-level dimmer control (0%, 33%, 66%, 100%).</Label>
+            </Field>
+            
+            <Field id="relay1Device" type="menu">
+                <Label>Relay 1 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+            
+            <Field id="relay2Device" type="menu">
+                <Label>Relay 2 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+        <SupportsBrightness>true</SupportsBrightness>
+    </Device>
+    
+    <Device type="speedcontrol" id="Relay2Fan">
+        <Name>Relay to Fan Converter</Name>
+        <ConfigUI>
+            <Field id="SupportsOnState" type="checkbox" defaultValue="true" hidden="true" />
+            <Field id="SupportsStatusRequest" type="checkbox" defaultValue="false" hidden="true" />
+            
+            <Field id="instructionsLabel" type="label">
+                <Label>This device converts two relay states into a 4-speed fan control (Off, Low, Medium, High).</Label>
+            </Field>
+            
+            <Field id="relay1Device" type="menu">
+                <Label>Relay 1 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+            
+            <Field id="relay2Device" type="menu">
+                <Label>Relay 2 Device:</Label>
+                <List class="self" method="getRelayList"/>
+            </Field>
+        </ConfigUI>
+    </Device>
+    
+    <Device type="dimmer" id="MultiDeviceVirtualDimmer">
+        <Name>Multi-Device Virtual Dimmer</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>This device controls multiple dimmers and relays as a single virtual dimmer. Dimmer devices mirror the brightness, while relay devices turn ON/OFF based on the threshold.</Label>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="controlledDevices" type="list" rows="15">
+                <Label>Controlled Devices:</Label>
+                <List class="self" method="getDeviceList"/>
+            </Field>
+            
+            <Field id="separator2" type="separator"/>
+            
+            <Field id="relayThreshold" type="textfield" defaultValue="50">
+                <Label>Relay Threshold (%):</Label>
+            </Field>
+            
+            <Field id="thresholdLabel" type="label">
+                <Label>Relays will turn ON when the virtual dimmer is at or above this threshold percentage, and OFF when below.</Label>
+            </Field>
+        </ConfigUI>
+        <SupportsOnState>true</SupportsOnState>
+        <SupportsBrightness>true</SupportsBrightness>
+    </Device>
+    <Device type="relay" id="SunriseSimulator">
+        <Name>Sunrise/Sunset Simulator</Name>
+        <ConfigUI>
+            <Field id="instructionsLabel" type="label">
+                <Label>Configure a sunrise or sunset simulation. The device automatically detects mode based on Starting vs Target brightness.</Label>
+            </Field>
+            
+            <Field id="separator1" type="separator"/>
+            
+            <Field id="startingBrightness" type="textfield" defaultValue="0">
+                <Label>Starting Brightness (%):</Label>
+            </Field>
+            
+            <Field id="targetBrightness" type="textfield" defaultValue="100">
+                <Label>Target Brightness (%):</Label>
+            </Field>
+            
+            <Field id="duration" type="textfield" defaultValue="300">
+                <Label>Duration (seconds):</Label>
+            </Field>
+            
+            <Field id="brightnessCurve" type="menu" defaultValue="linear">
+                <Label>Brightness Curve:</Label>
+                <List>
+                    <Option value="linear">Linear</Option>
+                    <Option value="ease">Ease-in/Ease-out</Option>
+                </List>
+            </Field>
+            
+            <Field id="resetDevicesAtStart" type="checkbox" defaultValue="false">
+                <Label>Reset devices to starting brightness</Label>
+            </Field>
+            
+            <Field id="resetLabel" type="label">
+                <Label>If unchecked, devices start at current brightness and sync when others catch up.</Label>
+            </Field>
+            
+            <Field id="separator2" type="separator"/>
+            
+            <Field id="controlledDevices" type="list" rows="10">
+                <Label>Controlled Dimmer Devices:</Label>
+                <List class="self" method="getDimmerList"/>
+            </Field>
+            
+            <Field id="separator3" type="separator"/>
+            
+            <Field id="actionGroupLabel" type="label">
+                <Label>Optional: Select action groups to run at different stages</Label>
+            </Field>
+            
+            <Field id="startActionGroup" type="menu">
+                <Label>Start Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="completeActionGroup" type="menu">
+                <Label>Complete Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+            
+            <Field id="stopActionGroup" type="menu">
+                <Label>Stop Action Group:</Label>
+                <List class="self" method="getActionGroupList"/>
+            </Field>
+        </ConfigUI>
+        <States>
+            <State id="status">
+                <ValueType>String</ValueType>
+                <TriggerLabel>Status</TriggerLabel>
+                <ControlPageLabel>Status</ControlPageLabel>
+            </State>
+            <State id="duration">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Duration</TriggerLabel>
+                <ControlPageLabel>Duration</ControlPageLabel>
+            </State>
+            <State id="durationRemaining">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Duration Remaining</TriggerLabel>
+                <ControlPageLabel>Duration Remaining</ControlPageLabel>
+            </State>
+            <State id="currentBrightness">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Current Brightness</TriggerLabel>
+                <ControlPageLabel>Current Brightness</ControlPageLabel>
+            </State>
+            <State id="percentageComplete">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Percentage Complete</TriggerLabel>
+                <ControlPageLabel>Percentage Complete</ControlPageLabel>
+            </State>
+            <State id="displayString">
+                <ValueType>String</ValueType>
+                <TriggerLabel>Display String</TriggerLabel>
+                <ControlPageLabel>Display String</ControlPageLabel>
+            </State>
+        </States>
+        <UiDisplayStateId>displayString</UiDisplayStateId>
+        <SupportsOnState>true</SupportsOnState>
+    </Device>
+</Devices>

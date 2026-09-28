@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<PluginConfig>
+    <Field id="logLevelLabel" type="label" alignWithControl="true">
+        <Label>Controls how much detail LightTools writes to the Indigo Event Log. Higher levels are useful when troubleshooting; lower levels keep the log quieter during normal operation.</Label>
+    </Field>
+    <Field id="logLevel" type="menu" defaultValue="detailed">
+        <Label>Logging Level:</Label>
+        <List>
+            <Option value="none">None (errors only)</Option>
+            <Option value="informational">Informational (high-level events)</Option>
+            <Option value="detailed">Detailed (per-device actions)</Option>
+            <Option value="debug">Debug (monitor decisions)</Option>
+            <Option value="extended">Extended Debug (full state dumps)</Option>
+        </List>
+    </Field>
+    <Field id="logLevelHelp" type="label" alignWithControl="true" fontSize="small" fontColor="darkgray">
+        <Label>• None — only errors are logged
+• Informational — plugin lifecycle, scene saves, flash starts, etc.
+• Detailed — adds per-device action results (e.g. "Turning OFF relay X")
+• Debug — adds monitor decision reasoning (per-tick change detection)
+• Extended Debug — adds full state dumps every monitor cycle (very verbose; use only when actively troubleshooting)</Label>
+    </Field>
+</PluginConfig>
